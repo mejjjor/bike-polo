@@ -1,0 +1,91 @@
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  integer,
+  interval,
+  serial,
+} from "drizzle-orm/pg-core";
+import { user } from "./auth";
+import { relations } from "drizzle-orm";
+
+export const tournamentSchema = pgTable("tournament", {
+  id: text()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text().notNull(),
+  image: text(),
+  createdAt: timestamp()
+    .$defaultFn(() => /* @__PURE__ */ new Date())
+    .notNull(),
+  updatedAt: timestamp()
+    .$defaultFn(() => /* @__PURE__ */ new Date())
+    .notNull(),
+  userId: text()
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+});
+
+export const userToTournamentsRelations = relations(user, ({ many }) => ({
+  tournaments: many(tournamentSchema),
+}));
+
+export const tournamentsToUserRelations = relations(
+  tournamentSchema,
+  ({ one }) => ({
+    user: one(user, {
+      fields: [tournamentSchema.userId],
+      references: [user.id],
+    }),
+  })
+);
+
+export const groundSchema = pgTable("ground", {
+  id: text()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text().notNull(),
+  slug: serial().notNull().unique(),
+
+  image: text(),
+
+  teamA: text().notNull().default("Team A"),
+  teamB: text().notNull().default("Team B"),
+  teamAScore: integer().notNull().default(0),
+  teamBScore: integer().notNull().default(0),
+  timerDuration: interval().notNull().default("00:12:00"),
+  timerStartTime: timestamp(),
+  timerStatus: boolean().notNull().default(false),
+  gameStatus: boolean().notNull().default(false),
+  timerPausedDuration: interval().notNull().default("00:00:00"),
+
+  isStreaming: boolean().notNull().default(false),
+
+  createdAt: timestamp()
+    .$defaultFn(() => /* @__PURE__ */ new Date())
+    .notNull(),
+  updatedAt: timestamp()
+    .$defaultFn(() => /* @__PURE__ */ new Date())
+    .notNull(),
+  tournamentId: text()
+    .notNull()
+    .references(() => tournamentSchema.id, { onDelete: "cascade" }),
+});
+
+export const tournamentToGroundsRelations = relations(
+  tournamentSchema,
+  ({ many }) => ({
+    grounds: many(groundSchema), // <- name here must match your query key!
+  })
+);
+
+export const groundsToTournamentRelations = relations(
+  groundSchema,
+  ({ one }) => ({
+    tournament: one(tournamentSchema, {
+      fields: [groundSchema.tournamentId],
+      references: [tournamentSchema.id],
+    }),
+  })
+);
