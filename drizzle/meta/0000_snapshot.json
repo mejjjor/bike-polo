@@ -1,5 +1,5 @@
 {
-  "id": "94cd7fa1-ea1a-4d72-8a8e-800b7eaf2117",
+  "id": "c67fb450-ec3e-4968-a80f-937a4739c3e0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -375,7 +375,7 @@
         },
         "timer_status": {
           "name": "timer_status",
-          "type": "timerStatus",
+          "type": "timer_status",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -516,8 +516,8 @@
     }
   },
   "enums": {
-    "public.timerStatus": {
-      "name": "timerStatus",
+    "public.timer_status": {
+      "name": "timer_status",
       "schema": "public",
       "values": [
         "initialed",

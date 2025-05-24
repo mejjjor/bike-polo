@@ -1,4 +1,4 @@
-CREATE TYPE "public"."timerStatus" AS ENUM('initialed', 'started', 'paused');--> statement-breakpoint
+CREATE TYPE "public"."timer_status" AS ENUM('initialed', 'started', 'paused');--> statement-breakpoint
 CREATE TABLE "account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE "ground" (
 	"team_b_score" integer DEFAULT 0 NOT NULL,
 	"timer_duration" integer DEFAULT 720 NOT NULL,
 	"timer_start_time" timestamp,
-	"timer_status" timerStatus DEFAULT 'initialed' NOT NULL,
+	"timer_status" timer_status DEFAULT 'initialed' NOT NULL,
 	"timer_offset" integer DEFAULT 0 NOT NULL,
 	"game_status" boolean DEFAULT false NOT NULL,
 	"is_streaming" boolean DEFAULT false NOT NULL,

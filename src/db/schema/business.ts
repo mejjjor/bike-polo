@@ -41,7 +41,7 @@ export const tournamentsToUserRelations = relations(
   })
 );
 
-export const timerStatusEnum = pgEnum("timerstatus", [
+export const timerStatusEnum = pgEnum("timer_status", [
   "initialed",
   "started",
   "paused",
