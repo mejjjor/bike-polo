@@ -78,3 +78,10 @@ export const updateIsStreaming = async (
     .set({ isStreaming })
     .where(eq(groundSchema.id, groundId));
 };
+
+export const startGame = async (groundId: string, date: Date) => {
+  return await db
+    .update(groundSchema)
+    .set({ timerStartTime: date, timerStatus: true, gameStatus: true })
+    .where(eq(groundSchema.id, groundId));
+};

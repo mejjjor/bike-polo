@@ -1,5 +1,7 @@
 import ScoreItem from "@/components/ScoreItem";
 import SwitchStream from "@/components/SwitchStream";
+import Timer from "@/components/Timer";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   getGroundById,
@@ -8,6 +10,7 @@ import {
   updateTeamAScore,
   updateTeamBName,
   updateTeamBScore,
+  startGame,
 } from "@/db/repositories/ground";
 import { routes } from "@/routes";
 import { headers } from "next/headers";
@@ -71,6 +74,21 @@ export default async function RefereePage({
       </div>
       <div>
         <h1 className="text-2xl font-bold">Timer</h1>
+        <Timer
+          ground={ground}
+          startGame={async (groundId: string, date: Date) => {
+            "use server";
+            startGame(groundId, date);
+          }}
+          pauseGame={async (groundId: string) => {
+            "use server";
+            startGame(groundId);
+          }}
+          resetGame={async (groundId: string) => {
+            "use server";
+            startGame(groundId);
+          }}
+        />
       </div>
       <div>
         <h1 className="text-2xl font-bold my-8">Stream</h1>
