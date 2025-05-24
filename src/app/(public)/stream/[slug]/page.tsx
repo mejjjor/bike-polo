@@ -1,6 +1,7 @@
 import { getGround } from "@/db/repositories/ground";
 import Relaoad from "./Reload";
 import FullScreen from "./FullScreen";
+import TimerDisplay from "@/components/TimerDisplay";
 
 export default async function Stream({
   params,
@@ -29,7 +30,7 @@ export default async function Stream({
           </div>
           <div className="space-y-1">
             <p className="text-sm font-medium leading-none">
-              {ground.timerDuration}
+              <TimerDisplay ground={ground} />
             </p>
           </div>
           <div className="flex-1">

@@ -21,10 +21,9 @@ type CardProps = React.ComponentProps<typeof Card> & {
   teamB: string;
   teamAScore: number;
   teamBScore: number;
-  timerDuration: string;
+  timerDuration: number;
   timerStartTime: Date | null;
-  timerStatus: boolean;
-  timerPausedDuration: string;
+  timerStatus: "initialed" | "started" | "paused";
   url: string;
   gameStatus: boolean;
   id: string;
@@ -38,11 +37,7 @@ export default function GroundCard({
   teamAScore,
   teamBScore,
   timerDuration,
-  timerStartTime,
-  timerStatus,
-  timerPausedDuration,
   url,
-  gameStatus,
   id,
   ...props
 }: CardProps) {

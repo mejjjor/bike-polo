@@ -4,8 +4,8 @@ import {
   timestamp,
   boolean,
   integer,
-  interval,
   serial,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 import { relations } from "drizzle-orm";
@@ -41,6 +41,12 @@ export const tournamentsToUserRelations = relations(
   })
 );
 
+export const timerStatusEnum = pgEnum("timerstatus", [
+  "initialed",
+  "started",
+  "paused",
+]);
+
 export const groundSchema = pgTable("ground", {
   id: text()
     .primaryKey()
@@ -54,12 +60,12 @@ export const groundSchema = pgTable("ground", {
   teamB: text().notNull().default("Team B"),
   teamAScore: integer().notNull().default(0),
   teamBScore: integer().notNull().default(0),
-  timerDuration: interval().notNull().default("00:12:00"),
+  timerDuration: integer().notNull().default(720),
   timerStartTime: timestamp(),
-  timerStatus: boolean().notNull().default(false),
-  gameStatus: boolean().notNull().default(false),
-  timerPausedDuration: interval().notNull().default("00:00:00"),
+  timerStatus: timerStatusEnum().notNull().default("initialed"),
+  timerOffset: integer().notNull().default(0),
 
+  gameStatus: boolean().notNull().default(false),
   isStreaming: boolean().notNull().default(false),
 
   createdAt: timestamp()

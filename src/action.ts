@@ -18,7 +18,7 @@ export const createGroundAction = async ({
 }: {
   name: string;
   tournamentId: string;
-  timerDuration: string;
+  timerDuration: number;
 }) => {
   await createGround({
     name,

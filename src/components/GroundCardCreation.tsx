@@ -44,7 +44,7 @@ export default function GroundCardCreation({
     startTransition(async () => {
       await createGroundAction({
         name,
-        timerDuration: `00:${duration.getMinutes()}:${duration.getSeconds()}`,
+        timerDuration: duration.getMinutes() * 60 + duration.getSeconds(),
         tournamentId,
       });
       router.refresh();

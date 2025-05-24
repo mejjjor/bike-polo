@@ -63,7 +63,6 @@ export default async function Dashboard() {
                   timerDuration={ground.timerDuration}
                   timerStartTime={ground.timerStartTime}
                   timerStatus={ground.timerStatus}
-                  timerPausedDuration={ground.timerPausedDuration}
                   gameStatus={ground.gameStatus}
                 />
               </li>

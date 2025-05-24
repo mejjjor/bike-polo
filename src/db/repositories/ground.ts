@@ -27,7 +27,7 @@ export const createGround = async ({
 }: {
   name: string;
   tournamentId: string;
-  timerDuration: string;
+  timerDuration: number;
 }) => {
   return await db
     .insert(groundSchema)
@@ -79,9 +79,97 @@ export const updateIsStreaming = async (
     .where(eq(groundSchema.id, groundId));
 };
 
-export const startGame = async (groundId: string, date: Date) => {
-  return await db
-    .update(groundSchema)
-    .set({ timerStartTime: date, timerStatus: true, gameStatus: true })
-    .where(eq(groundSchema.id, groundId));
-};
+export async function startTimer(groundId: string, timerStartTime: Date) {
+  try {
+    await db
+      .update(groundSchema)
+      .set({
+        timerStatus: "started",
+        timerStartTime,
+        timerOffset: 0,
+        gameStatus: true,
+      })
+      .where(eq(groundSchema.id, groundId));
+  } catch (error) {
+    console.error("Error starting game:", error);
+    throw error;
+  }
+}
+
+export async function pauseTimer(groundId: string, timerStopTime: Date) {
+  try {
+    const ground = await getGroundById(groundId);
+
+    if (!ground) {
+      throw new Error("Error in pauseTimer, bad groundId: " + groundId);
+    }
+
+    if (!ground.timerStartTime) {
+      throw new Error("Error in pauseTimer, no timerStartTime: " + groundId);
+    }
+
+    const offset =
+      (timerStopTime.getTime() - ground.timerStartTime.getTime()) / 1000;
+
+    await db
+      .update(groundSchema)
+      .set({
+        timerStatus: "paused",
+        timerOffset: ground.timerOffset + offset,
+      })
+      .where(eq(groundSchema.id, groundId));
+  } catch (error) {
+    console.error("Error pausing game:", error);
+    throw error;
+  }
+}
+
+export async function resumeTimer(groundId: string, timerStartTime: Date) {
+  try {
+    await db
+      .update(groundSchema)
+      .set({
+        timerStatus: "started",
+        timerStartTime,
+      })
+      .where(eq(groundSchema.id, groundId));
+  } catch (error) {
+    console.error("Error resuming game:", error);
+    throw error;
+  }
+}
+
+export async function resetTimer(groundId: string) {
+  try {
+    await db
+      .update(groundSchema)
+      .set({
+        timerStatus: "initialed",
+        timerStartTime: null,
+        timerOffset: 0,
+      })
+      .where(eq(groundSchema.id, groundId));
+  } catch (error) {
+    console.error("Error resetting game:", error);
+    throw error;
+  }
+}
+
+export async function resetGame(groundId: string) {
+  try {
+    await db
+      .update(groundSchema)
+      .set({
+        timerStatus: "initialed",
+        gameStatus: false,
+        timerStartTime: null,
+        timerOffset: 0,
+        teamAScore: 0,
+        teamBScore: 0,
+      })
+      .where(eq(groundSchema.id, groundId));
+  } catch (error) {
+    console.error("Error resetting game:", error);
+    throw error;
+  }
+}
