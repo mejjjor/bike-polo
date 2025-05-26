@@ -16,6 +16,7 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
 import Link from "next/link";
 import { routes } from "@/routes";
+import { toast } from "sonner";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -85,6 +86,7 @@ export default function SignIn() {
                   email,
                   password,
                   callbackURL: routes.dashboard,
+                  rememberMe,
                 },
                 {
                   onRequest: () => {
@@ -92,6 +94,9 @@ export default function SignIn() {
                   },
                   onResponse: () => {
                     setLoading(false);
+                  },
+                  onError: (ctx) => {
+                    toast.error(ctx.error.message);
                   },
                 }
               );

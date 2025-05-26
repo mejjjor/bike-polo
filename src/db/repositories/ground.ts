@@ -3,6 +3,7 @@
 import { db } from "@/db";
 import { groundSchema } from "@/db/schema/business";
 import { eq } from "drizzle-orm";
+import { Ground } from "@/db/schema";
 
 export const getGroundById = async (id: string) => {
   return await db.query.groundSchema.findFirst({
@@ -17,7 +18,17 @@ export const getGround = async (slug: number) => {
 };
 
 export const deleteGround = async (id: string) => {
-  return await db.delete(groundSchema).where(eq(groundSchema.id, id));
+  try {
+    const result = await db.delete(groundSchema).where(eq(groundSchema.id, id));
+
+    return {
+      success: true,
+      data: result.rows[0],
+    };
+  } catch (error) {
+    console.error("Error creating ground:", error);
+    throw error;
+  }
 };
 
 export const createGround = async ({
@@ -29,53 +40,27 @@ export const createGround = async ({
   tournamentId: string;
   timerDuration: number;
 }) => {
-  return await db
-    .insert(groundSchema)
-    .values({ name, timerDuration, tournamentId });
-};
+  try {
+    const result = await db
+      .insert(groundSchema)
+      .values({ name, timerDuration, tournamentId });
 
-export const updateGroundName = async (groundId: string, name: string) => {
-  return await db
-    .update(groundSchema)
-    .set({ name })
-    .where(eq(groundSchema.id, groundId));
+    return {
+      success: true,
+      data: result.rows[0],
+    };
+  } catch (error) {
+    console.error("Error creating ground:", error);
+    throw error;
+  }
 };
-
-export const updateTeamAName = async (groundId: string, name: string) => {
-  return await db
-    .update(groundSchema)
-    .set({ teamA: name })
-    .where(eq(groundSchema.id, groundId));
-};
-
-export const updateTeamBName = async (groundId: string, name: string) => {
-  return await db
-    .update(groundSchema)
-    .set({ teamB: name })
-    .where(eq(groundSchema.id, groundId));
-};
-
-export const updateTeamAScore = async (groundId: string, score: number) => {
-  return await db
-    .update(groundSchema)
-    .set({ teamAScore: score })
-    .where(eq(groundSchema.id, groundId));
-};
-
-export const updateTeamBScore = async (groundId: string, score: number) => {
-  return await db
-    .update(groundSchema)
-    .set({ teamBScore: score })
-    .where(eq(groundSchema.id, groundId));
-};
-
-export const updateIsStreaming = async (
+export const updateGround = async (
   groundId: string,
-  isStreaming: boolean
+  updates: Partial<Ground>
 ) => {
   return await db
     .update(groundSchema)
-    .set({ isStreaming })
+    .set(updates)
     .where(eq(groundSchema.id, groundId));
 };
 

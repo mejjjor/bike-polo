@@ -10,8 +10,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteGroundAction } from "@/action";
 import { useRouter } from "next/navigation";
+import { deleteGround } from "@/db/repositories/ground";
 
 export function GroundDropdownMenu({ groundId }: { groundId: string }) {
   const [open, setOpen] = React.useState(false);
@@ -31,7 +31,7 @@ export function GroundDropdownMenu({ groundId }: { groundId: string }) {
             className="text-red-600"
             onClick={() => {
               startTransition(async () => {
-                deleteGroundAction(groundId);
+                await deleteGround(groundId);
                 router.refresh();
               });
             }}

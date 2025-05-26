@@ -15,8 +15,9 @@ import Form from "next/form";
 import { Label } from "./ui/label";
 import { TimePicker } from "./ui/timePicker";
 import { useState, useTransition } from "react";
-import { createGroundAction } from "@/action";
 import { useRouter } from "next/navigation";
+import { createGround } from "@/db/repositories/ground";
+import { toast } from "sonner";
 
 type CardProps = React.ComponentProps<typeof Card> & {
   tournamentId: string;
@@ -38,11 +39,18 @@ export default function GroundCardCreation({
   const onSubmit = (formData: FormData) => {
     const name = formData.get("name")?.toString();
 
-    if (!name || !duration) {
+    if (!name) {
+      toast.error("Please provide a name for the ground.");
       return;
     }
+
+    if (!duration) {
+      toast.error("Please provide a valid duration for the ground.");
+      return;
+    }
+
     startTransition(async () => {
-      await createGroundAction({
+      const aa = await createGround({
         name,
         timerDuration: duration.getMinutes() * 60 + duration.getSeconds(),
         tournamentId,
@@ -60,6 +68,7 @@ export default function GroundCardCreation({
         <CardTitle>
           <div className="mt-1.5">Create new ground</div>
         </CardTitle>
+        Create
       </CardHeader>
       <Form
         action={onSubmit}

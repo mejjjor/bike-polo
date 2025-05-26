@@ -1,0 +1,1 @@
+ALTER TABLE "ground" ALTER COLUMN "timer_offset" SET DATA TYPE real;

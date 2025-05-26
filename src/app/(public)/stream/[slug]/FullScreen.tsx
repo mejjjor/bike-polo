@@ -6,7 +6,11 @@ const FullScreen = ({
   children: React.ReactNode;
 }>) => {
   const enterFullscreen = () => {
-    document.documentElement.requestFullscreen();
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.();
+    } else {
+      document.documentElement.requestFullscreen();
+    }
   };
 
   return <div onClick={enterFullscreen}>{children}</div>;

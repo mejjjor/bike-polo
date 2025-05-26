@@ -1,8 +1,10 @@
-import { updateTournamentNameAction } from "@/action";
 import GroundCard from "@/components/GroundCard";
 import GroundCardCreation from "@/components/GroundCardCreation";
 import LabelEditor from "@/components/LabelEditor";
-import { getTournamentsWithGrounds } from "@/db/repositories/tournament";
+import {
+  getTournamentsWithGrounds,
+  updateTournament,
+} from "@/db/repositories/tournament";
 import { auth } from "@/lib/auth";
 import { signOut } from "@/lib/auth-client";
 import { routes } from "@/routes";
@@ -41,10 +43,7 @@ export default async function Dashboard() {
             value={tournament.name}
             onValidate={async (name) => {
               "use server";
-              updateTournamentNameAction({
-                id: tournament.id,
-                name,
-              });
+              await updateTournament(tournament.id, { name });
             }}
           >
             <h2 className="text-2xl font-bold">{tournament.name}</h2>
@@ -53,17 +52,8 @@ export default async function Dashboard() {
             {tournament.grounds.map((ground) => (
               <li key={ground.id} className="p-2 m-2">
                 <GroundCard
-                  id={ground.id}
+                  ground={ground}
                   url={`${baseUrl}${routes.stream}/${ground.slug}`}
-                  name={ground.name}
-                  teamA={ground.teamA}
-                  teamB={ground.teamB}
-                  teamAScore={ground.teamAScore}
-                  teamBScore={ground.teamBScore}
-                  timerDuration={ground.timerDuration}
-                  timerStartTime={ground.timerStartTime}
-                  timerStatus={ground.timerStatus}
-                  gameStatus={ground.gameStatus}
                 />
               </li>
             ))}

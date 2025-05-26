@@ -6,6 +6,7 @@ import {
   integer,
   serial,
   pgEnum,
+  real,
 } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 import { relations } from "drizzle-orm";
@@ -63,7 +64,7 @@ export const groundSchema = pgTable("ground", {
   timerDuration: integer().notNull().default(720),
   timerStartTime: timestamp(),
   timerStatus: timerStatusEnum().notNull().default("initialed"),
-  timerOffset: integer().notNull().default(0),
+  timerOffset: real().notNull().default(0),
 
   gameStatus: boolean().notNull().default(false),
   isStreaming: boolean().notNull().default(false),

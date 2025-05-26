@@ -16,17 +16,15 @@ export default async function Protectedlayout({
   if (session) {
     redirect(routes.dashboard); // Navigate to the new post page
   } else {
-    return <>{children}</>;
+    return (
+      <div className="grid grid-rows-[1fr_5fr] min-h-svh p-2 lg:p-8 ">
+        <div className="flex">
+          <Title size="small" className="" />
+        </div>
+        <div>
+          <div className="flex justify-center">{children}</div>
+        </div>
+      </div>
+    );
   }
-
-  return (
-    <div className="grid grid-rows-[1fr_5fr] min-h-svh p-2 lg:p-8 ">
-      <div className="flex">
-        <Title size="small" className="" />
-      </div>
-      <div>
-        <div className="flex justify-center">{children}</div>
-      </div>
-    </div>
-  );
 }

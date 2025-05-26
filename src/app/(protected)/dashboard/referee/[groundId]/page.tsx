@@ -4,11 +4,7 @@ import Timer from "@/components/Timer";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   getGroundById,
-  updateIsStreaming,
-  updateTeamAName,
-  updateTeamAScore,
-  updateTeamBName,
-  updateTeamBScore,
+  updateGround,
   startTimer,
   pauseTimer,
   resumeTimer,
@@ -51,11 +47,11 @@ export default async function RefereePage({
               score={ground.teamAScore}
               updateName={async (name: string) => {
                 "use server";
-                updateTeamAName(groundId, name);
+                await updateGround(groundId, { teamA: name });
               }}
               updateScore={async (score: number) => {
                 "use server";
-                updateTeamAScore(groundId, score);
+                await updateGround(groundId, { teamAScore: score });
               }}
             />
             <div className="border" />
@@ -64,11 +60,11 @@ export default async function RefereePage({
               score={ground.teamBScore}
               updateName={async (name: string) => {
                 "use server";
-                updateTeamBName(groundId, name);
+                await updateGround(groundId, { teamB: name });
               }}
               updateScore={async (score: number) => {
                 "use server";
-                updateTeamBScore(groundId, score);
+                await updateGround(groundId, { teamBScore: score });
               }}
             />
           </CardContent>
@@ -110,7 +106,7 @@ export default async function RefereePage({
             checked={ground.isStreaming}
             onCheckedChange={async (checked) => {
               "use server";
-              updateIsStreaming(groundId, checked);
+              await updateGround(groundId, { isStreaming: checked });
             }}
           />
         </div>

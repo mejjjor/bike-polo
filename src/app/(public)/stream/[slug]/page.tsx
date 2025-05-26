@@ -29,9 +29,9 @@ export default async function Stream({
             <div>{ground.teamAScore}</div>
           </div>
           <div className="space-y-1">
-            <p className="text-sm font-medium leading-none">
-              <TimerDisplay ground={ground} />
-            </p>
+            <div className="text-sm font-medium leading-none">
+              <TimerDisplay ground={ground} withTimerDisplay />
+            </div>
           </div>
           <div className="flex-1">
             <div className="font-bold">{ground.teamB}</div>

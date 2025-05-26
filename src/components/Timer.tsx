@@ -3,8 +3,9 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Button } from "./ui/button";
 import TimerDisplay from "./TimerDisplay";
+import { Ground } from "@/db/schema";
 
-const getDateNow = () => new Date(new Date().setMilliseconds(0));
+const getDateNow = () => new Date();
 
 const Timer = ({
   ground,
@@ -13,14 +14,7 @@ const Timer = ({
   resumeTimer,
   resetTimer,
 }: {
-  ground: {
-    id: string;
-    timerDuration: number;
-    timerStartTime: Date | null;
-    timerStatus: "initialed" | "started" | "paused";
-    gameStatus: boolean;
-    timerOffset: number;
-  };
+  ground: Ground;
   startTimer: (groundId: string, timerStartTime: Date) => Promise<void>;
   pauseTimer: (groundId: string, timerStopTime: Date) => Promise<void>;
   resumeTimer: (groundId: string, timerStartTime: Date) => Promise<void>;
@@ -59,7 +53,7 @@ const Timer = ({
 
   return (
     <div className="flex flex-col gap-4 items-center">
-      <TimerDisplay ground={ground} />
+      <TimerDisplay ground={ground} withTimerDisplay />
 
       <div className="flex gap-2">
         {ground.timerStatus === "initialed" ? (

@@ -1,8 +1,9 @@
 import { db } from "@/db";
 import { eq, InferSelectModel, SQLWrapper } from "drizzle-orm";
 import { groundSchema, tournamentSchema } from "@/db/schema/business";
+import { Tournament } from "@/db/schema";
 
-type TournamentWithGrounds = InferSelectModel<typeof tournamentSchema> & {
+type TournamentWithGrounds = Tournament & {
   grounds: InferSelectModel<typeof groundSchema>[];
 };
 
@@ -25,12 +26,12 @@ export const getTournamentsWithGrounds = async (userId: string) => {
   })) as TournamentWithGrounds[];
 };
 
-export const updateTournamentName = async (
+export const updateTournament = async (
   tournamentId: string,
-  name: string
+  updates: Partial<Tournament>
 ) => {
   return await db
     .update(tournamentSchema)
-    .set({ name })
+    .set(updates)
     .where(eq(tournamentSchema.id, tournamentId));
 };

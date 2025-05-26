@@ -1,65 +1,62 @@
 "use client";
+import { Ground } from "@/db/schema";
+import { cn, formatSecondsToTime } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
 
-const getDateNow = () => new Date(new Date().setMilliseconds(0));
+const getDateNow = () => new Date();
 
 const TimerDisplay = ({
   ground,
+  withTimerDisplay,
 }: {
-  ground: {
-    id: string;
-    timerDuration: number;
-    timerStartTime: Date | null;
-    timerStatus: "initialed" | "started" | "paused";
-    gameStatus: boolean;
-    timerOffset: number;
-  };
+  ground: Ground;
+  className?: string;
+  withTimerDisplay?: boolean;
 }) => {
-  const formatSecondsToTime = (totalSeconds: number): string => {
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+  const [isClient, setIsClient] = useState(false);
 
-    return [minutes, seconds]
-      .map((num) => num.toString().padStart(2, "0"))
-      .join(":");
-  };
-
-  const getDisplayTime = (ground: {
-    id: string;
-    timerDuration: number;
-    timerStartTime: Date | null;
-    timerStatus: "initialed" | "started" | "paused";
-    gameStatus: boolean;
-    timerOffset: number;
-  }): string => {
+  const getTotalSeconds = (ground: Ground): number => {
     switch (ground.timerStatus) {
       case "started":
         if (ground.timerStartTime) {
           const toSubstract =
             (getDateNow().getTime() - ground.timerStartTime.getTime()) / 1000;
-          return formatSecondsToTime(
-            ground.timerDuration - toSubstract - ground.timerOffset
+          return (
+            ground.timerDuration -
+            Math.floor(toSubstract) -
+            Math.floor(ground.timerOffset)
           );
         }
-        return formatSecondsToTime(ground.timerDuration);
+        return ground.timerDuration;
       case "paused":
-        return formatSecondsToTime(ground.timerDuration - ground.timerOffset);
+        return ground.timerDuration - Math.floor(ground.timerOffset);
 
       case "initialed":
       default:
-        return formatSecondsToTime(ground.timerDuration);
+        return ground.timerDuration;
     }
   };
 
-  const [displayTime, setDisplayTime] = useState<string>(
-    getDisplayTime(ground)
-  );
+  const getDisplayTime = (ground: Ground): string => {
+    const totalSeconds = getTotalSeconds(ground);
+    return formatSecondsToTime(totalSeconds);
+  };
+
+  const [totalSeconds, setTotalSeconds] = useState(getTotalSeconds(ground));
+  const [displayTime, setDisplayTime] = useState(getDisplayTime(ground));
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
   const updateDisplayTime = () => {
+    const totalSeconds = getTotalSeconds(ground);
+    setTotalSeconds(totalSeconds);
     setDisplayTime(getDisplayTime(ground));
   };
+
   useEffect(() => {
+    setIsClient(true);
+    updateDisplayTime();
+
     intervalRef.current = setInterval(updateDisplayTime, 500);
 
     return () => {
@@ -70,8 +67,14 @@ const TimerDisplay = ({
   }, [ground.timerStatus]);
 
   return (
-    <div className="text-4xl font-mono font-bold text-center p-4 bg-gray-100 rounded-lg min-w-[200px]">
-      {displayTime}
+    <div
+      className={cn({
+        "text-red-500": totalSeconds <= 0,
+        "text-4xl font-mono font-bold text-center p-4 bg-gray-100 rounded-lg min-w-[200px] min-h-[72px]":
+          withTimerDisplay,
+      })}
+    >
+      {isClient && displayTime}
     </div>
   );
 };

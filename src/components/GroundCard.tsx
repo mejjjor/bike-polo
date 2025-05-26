@@ -1,4 +1,5 @@
 import { Copy, Podcast, Shield } from "lucide-react";
+import { formatSecondsToTime } from "@/lib/utils";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -13,53 +14,32 @@ import Link from "next/link";
 import { GroundDropdownMenu } from "./GroundDropdown";
 import { routes } from "@/routes";
 import LabelEditor from "./LabelEditor";
-import { updateGroundNameAction } from "@/action";
+import { Ground } from "@/db/schema";
+import TimerDisplay from "./TimerDisplay";
+import { updateGround } from "@/db/repositories/ground";
 
 type CardProps = React.ComponentProps<typeof Card> & {
-  name: string;
-  teamA: string;
-  teamB: string;
-  teamAScore: number;
-  teamBScore: number;
-  timerDuration: number;
-  timerStartTime: Date | null;
-  timerStatus: "initialed" | "started" | "paused";
+  ground: Ground;
   url: string;
-  gameStatus: boolean;
-  id: string;
 };
 
-export default function GroundCard({
-  className,
-  name,
-  teamA,
-  teamB,
-  teamAScore,
-  teamBScore,
-  timerDuration,
-  url,
-  id,
-  ...props
-}: CardProps) {
+export default function GroundCard({ className, ground, url }: CardProps) {
   return (
-    <Card className={cn("w-[320px]", className)} {...props}>
+    <Card className={cn("w-[320px]")}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 border-b-2 border-gray-300 h-16">
         <CardTitle className="mt-1.5 flex-1">
           <LabelEditor
-            value={name}
+            value={ground.name}
             onValidate={async (name) => {
               "use server";
-              updateGroundNameAction({
-                id,
-                name,
-              });
+              await updateGround(ground.id, { name });
             }}
           >
-            {name}
+            {ground.name}
           </LabelEditor>
         </CardTitle>
         <div className="flex justify-end items-center gap-2 ">
-          <GroundDropdownMenu groundId={id} />
+          <GroundDropdownMenu groundId={ground.id} />
         </div>
       </CardHeader>
       <CardContent className="grid gap-4 pt-4">
@@ -76,35 +56,36 @@ export default function GroundCard({
         </div>
         <div className=" flex items-center justify-between gap-2 rounded-md border p-4 text-center">
           <div className="flex-1">
-            <div className="font-bold">{teamA}</div>
-            <div>{teamAScore}</div>
+            <div className="font-bold">{ground.teamA}</div>
+            <div>{ground.teamAScore}</div>
           </div>
           <div className="">vs</div>
           <div className="flex-1">
-            <div className="font-bold">{teamB}</div>
-            <div>{teamBScore}</div>
+            <div className="font-bold">{ground.teamB}</div>
+            <div>{ground.teamBScore}</div>
           </div>
         </div>
         <div>
           <div className="mb-4 grid grid-cols-[20px_1fr] items-start pb-4 last:mb-0 last:pb-0 gap-2">
             <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
             <div className="space-y-1">
-              <p className="text-sm font-medium leading-none">
-                game duration : {timerDuration}
-              </p>
+              <div className="text-sm font-medium leading-none">
+                game duration : {formatSecondsToTime(ground.timerDuration)}
+              </div>
             </div>
             <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
             <div className="space-y-1">
-              <p className="text-sm font-medium leading-none">
-                timer : {timerDuration}
-              </p>
+              <div className="text-sm font-medium leading-none flex">
+                timer :&nbsp;
+                <TimerDisplay ground={ground} />
+              </div>
             </div>
           </div>
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between space-x-2">
         <Button asChild className="w-full">
-          <Link href={routes.referee(id)}>
+          <Link href={routes.referee(ground.id)}>
             <Shield /> Referee this game
           </Link>
         </Button>

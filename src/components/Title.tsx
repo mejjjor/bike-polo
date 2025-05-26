@@ -1,5 +1,5 @@
 import { Rock_Salt } from "next/font/google";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { routes } from "@/routes";
 
