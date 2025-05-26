@@ -50,7 +50,7 @@ export default function GroundCardCreation({
     }
 
     startTransition(async () => {
-      const aa = await createGround({
+      await createGround({
         name,
         timerDuration: duration.getMinutes() * 60 + duration.getSeconds(),
         tournamentId,

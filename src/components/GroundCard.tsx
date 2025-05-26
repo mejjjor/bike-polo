@@ -23,7 +23,7 @@ type CardProps = React.ComponentProps<typeof Card> & {
   url: string;
 };
 
-export default function GroundCard({ className, ground, url }: CardProps) {
+export default function GroundCard({ ground, url }: CardProps) {
   return (
     <Card className={cn("w-[320px]")}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 border-b-2 border-gray-300 h-16">
