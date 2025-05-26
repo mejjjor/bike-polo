@@ -20,7 +20,7 @@ const ScoreItem = ({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="flex-1 flex flex-col gap-4 mx-8 ">
+    <div className="flex-1 flex flex-col gap-4 mx-8 justify-center items-center">
       <LabelEditor value={name} onValidate={updateName}>
         <h2 className="text-xl font-bold">{name}</h2>
       </LabelEditor>
