@@ -35,7 +35,7 @@ export default function Home() {
         <div>Made with ♥️ in Toulouse</div>
         <div className="flex gap-4">
           Erik Aouizerate
-          <a target="_blank" href="https://github.com/mejjjor/bike-polo">
+          <a target="_blank" href="https://github.com/erikAouizerate/bike-polo">
             <Image
               src="/github.svg"
               alt="github repository"
