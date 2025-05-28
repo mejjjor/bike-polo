@@ -57,6 +57,10 @@ const TimerDisplay = ({
     setIsClient(true);
     updateDisplayTime();
 
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
     intervalRef.current = setInterval(updateDisplayTime, 500);
 
     return () => {
@@ -64,7 +68,7 @@ const TimerDisplay = ({
         clearInterval(intervalRef.current);
       }
     };
-  }, [ground.timerStatus]);
+  }, [ground.timerStatus, ground.timerDuration]);
 
   return (
     <div

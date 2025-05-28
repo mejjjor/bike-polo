@@ -2,7 +2,9 @@ import ResetGame from "@/components/ResetGame";
 import ScoreItem from "@/components/ScoreItem";
 import SwitchStream from "@/components/SwitchStream";
 import Timer from "@/components/Timer";
+import TimerEditor from "@/components/TimerEditor";
 import { Card, CardContent } from "@/components/ui/card";
+import { TimePicker } from "@/components/ui/timePicker";
 import {
   getGroundById,
   updateGround,
@@ -91,6 +93,14 @@ export default async function RefereePage({
             resetTimer={async (groundId: string) => {
               "use server";
               await resetTimer(groundId);
+            }}
+          />
+          <TimerEditor
+            timerDuration={ground.timerDuration}
+            updateTimer={async (timerDuration) => {
+              "use server";
+              console.log("updating timer duration", timerDuration);
+              await updateGround(groundId, { timerDuration });
             }}
           />
         </div>

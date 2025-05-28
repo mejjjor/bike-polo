@@ -38,3 +38,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## TODO
 
 - Gérer validation par email + email de recupération de mot de passe (https://www.better-auth.com/docs/concepts/email#password-reset-email)
+- gestion des joueurs et des equipes
+- gestion des fautes par joueur
+- geston du tournoi

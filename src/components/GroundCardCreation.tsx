@@ -68,7 +68,6 @@ export default function GroundCardCreation({
         <CardTitle>
           <div className="mt-1.5">Create new ground</div>
         </CardTitle>
-        Create
       </CardHeader>
       <Form
         action={onSubmit}
