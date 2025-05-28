@@ -25,10 +25,11 @@ export default function TimerEditor({
       <TimePicker date={duration} setDate={setDuration} />
       <Button
         onClick={async () => {
-          duration &&
-            (await updateTimer(
+          if (duration) {
+            await updateTimer(
               duration.getMinutes() * 60 + duration.getSeconds()
-            ));
+            );
+          }
           router.refresh();
         }}
       >
