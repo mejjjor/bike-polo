@@ -70,15 +70,40 @@ const TimerDisplay = ({
     };
   }, [ground.timerStatus, ground.timerDuration]);
 
+  const [minutes, seconds] = displayTime.split(":");
+
   return (
     <div
+      style={{ fontFamily: "Lightdot", fontSize: "32px" }}
       className={cn({
-        "text-red-500": totalSeconds <= 0,
-        "text-4xl font-mono font-bold text-center p-4 bg-gray-100 rounded-lg min-w-[200px] min-h-[72px]":
+        "text-red-500 animate-blink": totalSeconds <= 0,
+
+        "text-4xl font-mono self-center w-[175px] text-center":
           withTimerDisplay,
       })}
     >
-      {isClient && displayTime}
+      {isClient && (
+        <div className="flex text-center">
+          <div className=" flex">
+            {minutes.split("").map((char, i) => (
+              <span key={i} className="inline-block w-[1.25ch] text-center">
+                {char}
+              </span>
+            ))}
+          </div>
+          <div className="min-w-[1.25ch]">:</div>
+          <div className=" flex">
+            {seconds.split("").map((char, i) => (
+              <span key={i} className="inline-block w-[1.25ch] text-center">
+                {char}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="text-lg w-[175px] text-center">
+        {totalSeconds <= 0 ? " Finished" : ""}&nbsp;
+      </div>
     </div>
   );
 };

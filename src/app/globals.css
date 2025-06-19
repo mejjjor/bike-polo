@@ -113,3 +113,26 @@
     @apply bg-background text-foreground;
   }
 }
+@font-face {
+  font-family: 'Lightdot';
+  src: url('/fonts/Lightdot-7x6.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Scoreboard';
+  src: url('/fonts/scoreboard.ttf') format('truetype');
+}
+
+.neon-text-red {
+  text-shadow:
+    0 0 5px #b90c0c,
+    0 0 10px #b90c0c,
+    0 0 20px #b90c0c,
+    0 0 40px #b90c0c;
+}
+
+.neon-text-yellow {
+  text-shadow:
+    0 0 10px #ffd900,
+    0 0 20px #ffd900;
+}
