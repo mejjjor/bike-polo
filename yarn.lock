@@ -1493,10 +1493,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-better-auth@^1.2.8:
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/better-auth/-/better-auth-1.2.8.tgz#a131098e54d2dd1e19a7d236921ea51b47a40eec"
-  integrity sha512-y8ry7ZW3/3ZIr82Eo1zUDtMzdoQlFnwNuZ0+b0RxoNZgqmvgTIc/0tCDC7NDJerqSu4UCzer0dvYxBsv3WMIGg==
+better-auth@^1.2.10:
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/better-auth/-/better-auth-1.2.10.tgz#073c19a704e70ac573eea9aacbd9afe99c51e52a"
+  integrity sha512-nEj1RG4DdLUuJiV5CR93ORyPCptGRBwksaPPCkUtGo9ka+UIlTpaiKoTaTqVLLYlqwX4bOj9tJ32oBNdf2G3Kg==
   dependencies:
     "@better-auth/utils" "0.2.5"
     "@better-fetch/fetch" "^1.1.18"
@@ -1507,7 +1507,7 @@ better-auth@^1.2.8:
     better-call "^1.0.8"
     defu "^6.1.4"
     jose "^5.9.6"
-    kysely "^0.28.1"
+    kysely "^0.28.2"
     nanostores "^0.11.3"
     zod "^3.24.1"
 
@@ -2846,7 +2846,7 @@ keyv@^4.5.4:
   dependencies:
     json-buffer "3.0.1"
 
-kysely@^0.28.1:
+kysely@^0.28.2:
   version "0.28.2"
   resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.28.2.tgz#1a4ff83cedf2b259a151ab9c42ad28bcac6c2f98"
   integrity sha512-4YAVLoF0Sf0UTqlhgQMFU9iQECdah7n+13ANkiuVfRvlK+uI0Etbgd7bVP36dKlG+NXWbhGua8vnGt+sdhvT7A==
